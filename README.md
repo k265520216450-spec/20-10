@@ -34,6 +34,15 @@
             font-family: 'Quicksand', sans-serif;
             user-select: none;
             -webkit-user-select: none;
+            forced-color-adjust: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            html, body {
+                background-color: #ffe4e1 !important;
+                background-image: url('image_5f3a28.png') !important;
+                color: #333 !important;
+            }
         }
 
         /* 1. Hiệu ứng Ngôi Sao Lấp Lánh */
@@ -235,10 +244,9 @@
             Nhấn vào bó hoa nhé! 🌸
         </h2>
         
-        <!-- Bó hoa Tulip với onerror fallback đảm bảo hiển thị 100% -->
+        <!-- Bó hoa Tulip sử dụng tệp bo hoa.png -->
         <img id="tulip-bouquet" 
-             src="image_693a2e.jpg" 
-             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800';" 
+             src="bo hoa.png" 
              alt="Bó hoa tulip hồng" 
              class="bouquet-img"
              onclick="openLetter()">
