@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light only">
+    <title>20/10 Vui Vẻ Nhé Chị Thanh & Cháu Bơ!</title>
+    
+    <!-- Tích hợp Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            color-scheme: light !important; 
+        }
+
+        html, body {
+            background-color: #e0f2fe !important;
+            background-image: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Quicksand', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            forced-color-adjust: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            html, body {
+                background-color: #e0f2fe !important;
+                background-image: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%) !important;
+                color: #333 !important;
+            }
+        }
+
+        #music-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 40;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #bae6fd;
+            border-radius: 9999px;
+            padding: 8px 16px;
+            font-weight: 700;
+            color: #0284c7;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #music-btn:hover {
+            transform: scale(1.05);
+            background: #ffffff;
+        }
+
+        #bg-stars {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #fff, 0 0 10px #38bdf8;
+            animation: twinkle infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.6); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        #bg-stickers {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .sticker {
+            position: absolute;
+            font-size: 2.2rem;
+            animation: float-up infinite linear;
+            opacity: 0.8;
+            filter: drop-shadow(0 4px 8px rgba(56, 189, 248, 0.4));
+        }
+        @keyframes float-up {
+            0% { transform: translateY(105vh) rotate(-15deg) translateX(0); opacity: 0; }
+            15% { opacity: 0.85; }
+            85% { opacity: 0.85; }
+            100% { transform: translateY(-15vh) rotate(20deg) translateX(35px); opacity: 0; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.25);
+        }
+        
+        #puzzle-board {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            background-color: #fff;
+            border: 4px solid #bae6fd;
+            border-radius: 16px;
+            margin: 0 auto;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .tile {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-size: 300px 300px;
+            background-repeat: no-repeat;
+            border: 1.5px solid #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: top 0.25s ease, left 0.25s ease, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            z-index: 10;
+        }
+        
+        .tile.selected {
+            border: 3px solid #0284c7;
+            transform: scale(1.05);
+            z-index: 25;
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.6);
+        }
+
+        .btn-cute {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+        .btn-cute:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+        }
+        .btn-cute:active {
+            transform: translateY(1px);
+        }
+
+        .bouquet-img {
+            width: 280px;
+            max-height: 55vh;
+            object-fit: cover;
+            border-radius: 24px;
+            cursor: pointer;
+            animation: glow-pulse 2.5s infinite alternate, float-bounce 3s infinite ease-in-out;
+            border: 4px solid #ffffff;
+        }
+
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 12px #bae6fd, 0 0 25px #38bdf8; }
+            100% { box-shadow: 0 0 25px #0284c7, 0 0 40px #38bdf8; }
+        }
+        
+        @keyframes float-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #letter-modal {
+            background: rgba(224, 242, 254, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        
+        .envelope-card {
+            width: 330px;
+            background: #ffffff;
+            padding: 35px 24px 28px;
+            border-radius: 24px;
+            box-shadow: 0 20px 45px rgba(56, 189, 248, 0.35);
+            position: relative;
+            border: 2px dashed #bae6fd;
+            animation: pop-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .envelope-card::before {
+            content: '🎀';
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .font-pacifico {
+            font-family: 'Pacifico', cursive;
+            color: #0284c7;
+            text-shadow: 2px 2px 0px #e0f2fe;
+        }
+
+        @keyframes pop-in {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .main-layer {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative flex items-center justify-center p-4">
+
+    <!-- ÂM THANH NỀN -->
+    <audio id="bg-music" loop src="nhac.mp3"></audio>
+
+    <button id="music-btn" onclick="toggleMusic()">🎵 Bật nhạc</button>
+
+    <!-- MÀN HÌNH CHÀO RIÊNG CHO CHỊ THANH & CHÁU BƠ -->
+    <div id="start-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);">
+        <div class="glass-card p-8 rounded-3xl text-center max-w-xs w-full shadow-2xl flex flex-col items-center">
+            <div class="text-6xl mb-4 animate-bounce">🎁</div>
+            <h1 class="text-2xl font-bold text-sky-600 mb-2">Quà 20/10 ✨</h1>
+            <p class="text-gray-500 text-xs sm:text-sm mb-6 font-medium">Bấm vào đây để mở quà gửi chị Thanh và bé Bơ nhé!</p>
+            <button onclick="startWeb()" class="w-full py-3.5 rounded-full text-white font-bold text-base btn-cute outline-none shadow-lg">
+                Mở quà ngay 💖
+            </button>
+        </div>
+    </div>
+
+    <div id="bg-stars"></div>
+    <div id="bg-stickers"></div>
+
+    <div id="game-section" class="main-layer hidden w-full max-w-sm flex flex-col items-center">
+        <div class="glass-card p-6 rounded-3xl text-center w-full">
+            <h1 class="text-2xl font-bold text-sky-600 mb-1">Xếp Hình Nhận Quà ✨</h1>
+            <p class="text-gray-500 text-xs sm:text-sm mb-4 font-medium">Bấm mảnh 1 rồi bấm mảnh 2 để đổi chỗ nhé!</p>
+            
+            <div id="puzzle-board"></div>
+            
+            <button id="shuffle-btn" onclick="shuffleGame()" class="mt-5 w-full py-3 rounded-full text-white font-bold text-base btn-cute outline-none">
+                Bắt đầu xáo trộn 🎲
+            </button>
+            <p id="win-message" class="text-sky-600 font-bold mt-3 opacity-0 transition-opacity duration-300">
+                Xuất sắc quá! Đang chuẩn bị quà... 💖
+            </p>
+        </div>
+    </div>
+
+    <div id="bouquet-section" class="main-layer hidden flex-col items-center text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-sky-600 mb-5 bg-white/90 px-6 py-2 rounded-full border border-sky-200 shadow-sm">
+            Nhấn vào bó hoa nhé! 🌸
+        </h2>
+        
+        <img id="tulip-bouquet" 
+             src="bohoa.png" 
+             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800';" 
+             alt="Bó hoa tulip hồng" 
+             class="bouquet-img"
+             onclick="openLetter()">
+    </div>
+
+    <div id="letter-modal" class="fixed inset-0 hidden items-center justify-center z-50 p-4">
+        <div class="envelope-card flex flex-col items-center max-w-xs w-full">
+            <div class="w-full mb-1">
+                <img src="anhlathu.png" 
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&h=200&auto=format&fit=crop';" 
+                     alt="Cute image" 
+                     class="w-20 h-20 mx-auto rounded-full object-cover border-4 border-sky-100 shadow-sm">
+            </div>
+            
+            <h1 class="font-pacifico text-4xl my-2">20/10 vui vẻ</h1>
+            
+            <p class="text-gray-600 text-sm font-semibold leading-relaxed mt-1">
+                Nhân ngày 20/10 em chúc chị và cháu Bơ có một ngày vui vẻ, chị thì ngày càng xinh đẹp, khoẻ mạnh, còn cháu thì phải ăn nhanh chóng lớn, có sức đề kháng cao để không bị ốm vặt nữa! 💖🌷✨
+            </p>
+            
+            <button onclick="closeLetter()" class="mt-5 px-8 py-2.5 rounded-full text-white font-bold btn-cute outline-none text-sm">
+                Cảm ơn em nhiều lắm! 🥰
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentPuzzleImg = 'anhxephinh.png'; 
+        
+        const bgMusic = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        let isPlaying = false;
+
+        function startWeb() {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicBtn.innerText = '🎵 Bật nhạc';
+            }).catch(err => {
+                console.log('Chưa thể tự động phát nhạc:', err);
+            });
+
+            document.getElementById('start-overlay').style.display = 'none';
+            const gameSec = document.getElementById('game-section');
+            gameSec.classList.remove('hidden');
+            gameSec.classList.add('flex');
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.innerText = '🔇 Tắt nhạc';
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicBtn.innerText = '🎵 Bật nhạc';
+                    isPlaying = true;
+                }).catch(err => {});
+            }
+        }
+        
+        const testImg = new Image();
+        testImg.src = currentPuzzleImg;
+        testImg.onerror = () => {
+            currentPuzzleImg = 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=300&h=300&auto=format&fit=crop';
+            renderTiles();
+        };
+
+        const starContainer = document.getElementById('bg-stars');
+        for(let i = 0; i < 40; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+            star.style.animationDelay = (Math.random() * 2) + 's';
+            starContainer.appendChild(star);
+        }
+
+        const stickersList = ['🌸', '🧸', '🎀', '💖', '✨', '☁️', '⭐'];
+        const stickerContainer = document.getElementById('bg-stickers');
+        for(let i = 0; i < 16; i++) {
+            let sticker = document.createElement('div');
+            sticker.className = 'sticker';
+            sticker.innerText = stickersList[Math.floor(Math.random() * stickersList.length)];
+            sticker.style.left = Math.random() * 100 + 'vw';
+            sticker.style.animationDuration = (Math.random() * 8 + 10) + 's';
+            sticker.style.animationDelay = (Math.random() * -15) + 's';
+            sticker.style.transform = `scale(${Math.random() * 0.4 + 0.7})`;
+            stickerContainer.appendChild(sticker);
+        }
+
+        const boardSize = 3;
+        let tiles = [0, 1, 2, 3, 4, 5, 6, 7, 8]; 
+        const boardEl = document.getElementById('puzzle-board');
+        let gameStarted = false;
+        let selectedIndex = -1;
+
+        function renderTiles() {
+            boardEl.innerHTML = '';
+            tiles.forEach((val, index) => {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                if (index === selectedIndex) tile.classList.add('selected');
+                
+                const x = (index % boardSize) * 100;
+                const y = Math.floor(index / boardSize) * 100;
+                tile.style.left = x + 'px';
+                tile.style.top = y + 'px';
+
+                const bgX = (val % boardSize) * 100;
+                const bgY = Math.floor(val / boardSize) * 100;
+                tile.style.backgroundImage = `url('${currentPuzzleImg}')`;
+                tile.style.backgroundPosition = `-${bgX}px -${bgY}px`;
+
+                tile.onclick = () => handleTileClick(index);
+                boardEl.appendChild(tile);
+            });
+        }
+
+        function handleTileClick(index) {
+            if (!gameStarted) return;
+            
+            if (selectedIndex === -1) {
+                selectedIndex = index;
+                renderTiles();
+            } 
+            else {
+                if (selectedIndex !== index) {
+                    let temp = tiles[selectedIndex];
+                    tiles[selectedIndex] = tiles[index];
+                    tiles[index] = temp;
+                }
+                selectedIndex = -1;
+                renderTiles();
+                
+                if (checkWin()) {
+                    triggerWin();
+                }
+            }
+        }
+
+        function shuffleGame() {
+            gameStarted = true;
+            selectedIndex = -1;
+            document.getElementById('win-message').style.opacity = '0';
+            document.getElementById('shuffle-btn').innerText = 'Xáo trộn lại 🎲';
+            
+            for (let i = tiles.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+            }
+            
+            if (checkWin()) {
+                [tiles[0], tiles[1]] = [tiles[1], tiles[0]];
+            }
+
+            renderTiles();
+        }
+
+        function checkWin() {
+            for (let i = 0; i < tiles.length; i++) {
+                if (tiles[i] !== i) return false;
+            }
+            return true;
+        }
+
+        function triggerWin() {
+            gameStarted = false;
+            document.getElementById('win-message').style.opacity = '1';
+            
+            setTimeout(() => {
+                document.getElementById('game-section').classList.add('hidden');
+                document.getElementById('bouquet-section').classList.remove('hidden');
+                document.getElementById('bouquet-section').classList.add('flex');
+            }, 1200);
+        }
+
+        function openLetter() {
+            const modal = document.getElementById('letter-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLetter() {
+            const modal = document.getElementById('letter-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        window.onload = () => {
+            renderTiles();
+        };
+    </script>
+</body>
+</html>
