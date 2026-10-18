@@ -45,6 +45,27 @@
             }
         }
 
+        /* Nút Bật/Tắt Nhạc Nền */
+        #music-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 40;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #bae6fd;
+            border-radius: 9999px;
+            padding: 8px 16px;
+            font-weight: 700;
+            color: #0284c7;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #music-btn:hover {
+            transform: scale(1.05);
+            background: #ffffff;
+        }
+
         /* 1. Hiệu ứng Ngôi Sao Lấp Lánh */
         #bg-stars {
             position: fixed;
@@ -217,12 +238,30 @@
 </head>
 <body class="min-h-screen relative flex items-center justify-center p-4">
 
+    <!-- PHẦN TỬ ÂM THANH NỀN -->
+    <audio id="bg-music" loop src="nhac.mp3"></audio>
+
+    <!-- NÚT BẬT/TẮT NHẠC -->
+    <button id="music-btn" onclick="toggleMusic()">🎵 Bật nhạc</button>
+
+    <!-- MÀN HÌNH MỞ QUÀ ĐẦU TIÊN (GIÚP TỰ ĐỘNG PHÁT NHẠC 100%) -->
+    <div id="start-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);">
+        <div class="glass-card p-8 rounded-3xl text-center max-w-xs w-full shadow-2xl flex flex-col items-center">
+            <div class="text-6xl mb-4 animate-bounce">🎁</div>
+            <h1 class="text-2xl font-bold text-sky-600 mb-2">Món Quà 20/10 ✨</h1>
+            <p class="text-gray-500 text-xs sm:text-sm mb-6 font-medium">Bấm vào nút bên dưới để bắt đầu nghe nhạc và chơi game nhé!</p>
+            <button onclick="startWeb()" class="w-full py-3.5 rounded-full text-white font-bold text-base btn-cute outline-none shadow-lg">
+                Mở quà ngay 💖
+            </button>
+        </div>
+    </div>
+
     <!-- HIỆU ỨNG NỀN: SAO & STICKER -->
     <div id="bg-stars"></div>
     <div id="bg-stickers"></div>
 
     <!-- MÀN HÌNH GAME XẾP HÌNH -->
-    <div id="game-section" class="main-layer w-full max-w-sm flex flex-col items-center">
+    <div id="game-section" class="main-layer hidden w-full max-w-sm flex flex-col items-center">
         <div class="glass-card p-6 rounded-3xl text-center w-full">
             <h1 class="text-2xl font-bold text-sky-600 mb-1">Xếp Hình Nhận Quà ✨</h1>
             <p class="text-gray-500 text-xs sm:text-sm mb-4 font-medium">Bấm mảnh 1 rồi bấm mảnh 2 để đổi chỗ nhé!</p>
@@ -280,6 +319,42 @@
     <script>
         // Đường dẫn ảnh dùng làm game xếp hình
         let currentPuzzleImg = 'anhxephinh.png'; 
+        
+        // Quản lý phát nhạc
+        const bgMusic = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        let isPlaying = false;
+
+        function startWeb() {
+            // Phát nhạc ngay khi chạm vào nút Mở Quà
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicBtn.innerText = '🎵 Bật nhạc';
+            }).catch(err => {
+                console.log('Chưa thể tự động phát nhạc:', err);
+            });
+
+            // Ẩn màn hình chào và hiện game xếp hình
+            document.getElementById('start-overlay').style.display = 'none';
+            const gameSec = document.getElementById('game-section');
+            gameSec.classList.remove('hidden');
+            gameSec.classList.add('flex');
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.innerText = '🔇 Tắt nhạc';
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicBtn.innerText = '🎵 Bật nhạc';
+                    isPlaying = true;
+                }).catch(err => {
+                    console.log('Lỗi phát nhạc:', err);
+                });
+            }
+        }
         
         // Bắt lỗi nạp ảnh tự động
         const testImg = new Image();
