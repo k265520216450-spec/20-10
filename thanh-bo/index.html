@@ -6,7 +6,7 @@
     <meta name="color-scheme" content="light only">
     <title>20/10 Vui Vẻ Nhé Chị Thanh & Cháu Bơ!</title>
     
-    <!-- Tích hợp Tailwind CSS -->
+    <!-- Tích hợp Tailwind CSS cho thiết kế giao diện -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
@@ -19,6 +19,7 @@
             color-scheme: light !important; 
         }
 
+        /* Phông nền màu xanh dương nhạt cute */
         html, body {
             background-color: #e0f2fe !important;
             background-image: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
@@ -44,6 +45,7 @@
             }
         }
 
+        /* Nút Bật/Tắt Nhạc Nền */
         #music-btn {
             position: fixed;
             top: 16px;
@@ -64,6 +66,7 @@
             background: #ffffff;
         }
 
+        /* 1. Hiệu ứng Ngôi Sao Lấp Lánh */
         #bg-stars {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -84,6 +87,7 @@
             50% { opacity: 1; transform: scale(1.3); }
         }
 
+        /* 2. Sticker Lơ Lửng */
         #bg-stickers {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -98,12 +102,19 @@
             filter: drop-shadow(0 4px 8px rgba(56, 189, 248, 0.4));
         }
         @keyframes float-up {
-            0% { transform: translateY(105vh) rotate(-15deg) translateX(0); opacity: 0; }
+            0% {
+                transform: translateY(105vh) rotate(-15deg) translateX(0);
+                opacity: 0;
+            }
             15% { opacity: 0.85; }
             85% { opacity: 0.85; }
-            100% { transform: translateY(-15vh) rotate(20deg) translateX(35px); opacity: 0; }
+            100% {
+                transform: translateY(-15vh) rotate(20deg) translateX(35px);
+                opacity: 0;
+            }
         }
 
+        /* 3. Panel Kính Trong Suốt & Bàn Xếp Hình */
         .glass-card {
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(12px);
@@ -158,6 +169,7 @@
             transform: translateY(1px);
         }
 
+        /* 4. Màn hình Bó Hoa */
         .bouquet-img {
             width: 280px;
             max-height: 55vh;
@@ -178,6 +190,7 @@
             50% { transform: translateY(-10px); }
         }
 
+        /* 5. Thư tay Modal */
         #letter-modal {
             background: rgba(224, 242, 254, 0.8);
             backdrop-filter: blur(8px);
@@ -225,9 +238,10 @@
 </head>
 <body class="min-h-screen relative flex items-center justify-center p-4">
 
-    <!-- ÂM THANH NỀN -->
+    <!-- PHẦN TỬ ÂM THANH NỀN -->
     <audio id="bg-music" loop src="nhac.mp3"></audio>
 
+    <!-- NÚT BẬT/TẮT NHẠC -->
     <button id="music-btn" onclick="toggleMusic()">🎵 Bật nhạc</button>
 
     <!-- MÀN HÌNH CHÀO RIÊNG CHO CHỊ THANH & CHÁU BƠ -->
@@ -242,14 +256,17 @@
         </div>
     </div>
 
+    <!-- HIỆU ỨNG NỀN: SAO & STICKER -->
     <div id="bg-stars"></div>
     <div id="bg-stickers"></div>
 
+    <!-- MÀN HÌNH GAME XẾP HÌNH -->
     <div id="game-section" class="main-layer hidden w-full max-w-sm flex flex-col items-center">
         <div class="glass-card p-6 rounded-3xl text-center w-full">
             <h1 class="text-2xl font-bold text-sky-600 mb-1">Xếp Hình Nhận Quà ✨</h1>
             <p class="text-gray-500 text-xs sm:text-sm mb-4 font-medium">Bấm mảnh 1 rồi bấm mảnh 2 để đổi chỗ nhé!</p>
             
+            <!-- Bàn ghép hình 3x3 -->
             <div id="puzzle-board"></div>
             
             <button id="shuffle-btn" onclick="shuffleGame()" class="mt-5 w-full py-3 rounded-full text-white font-bold text-base btn-cute outline-none">
@@ -261,11 +278,13 @@
         </div>
     </div>
 
+    <!-- MÀN HÌNH BÓ HOA TULIP -->
     <div id="bouquet-section" class="main-layer hidden flex-col items-center text-center">
         <h2 class="text-xl sm:text-2xl font-bold text-sky-600 mb-5 bg-white/90 px-6 py-2 rounded-full border border-sky-200 shadow-sm">
             Nhấn vào bó hoa nhé! 🌸
         </h2>
         
+        <!-- Bó hoa Tulip -->
         <img id="tulip-bouquet" 
              src="bohoa.png" 
              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800';" 
@@ -274,12 +293,14 @@
              onclick="openLetter()">
     </div>
 
+    <!-- MODAL THƯ TAY CUTE -->
     <div id="letter-modal" class="fixed inset-0 hidden items-center justify-center z-50 p-4">
         <div class="envelope-card flex flex-col items-center max-w-xs w-full">
             <div class="w-full mb-1">
-                <img src="anhlathu.png" 
+                <!-- Ảnh tròn đại diện bo.png -->
+                <img src="bo.png" 
                      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&h=200&auto=format&fit=crop';" 
-                     alt="Cute image" 
+                     alt="Cháu Bơ" 
                      class="w-20 h-20 mx-auto rounded-full object-cover border-4 border-sky-100 shadow-sm">
             </div>
             
@@ -296,8 +317,10 @@
     </div>
 
     <script>
-        let currentPuzzleImg = 'anhxephinh.png'; 
+        // Đường dẫn ảnh xếp hình thanh.png
+        let currentPuzzleImg = 'thanh.png'; 
         
+        // Quản lý phát nhạc
         const bgMusic = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
         let isPlaying = false;
@@ -325,10 +348,13 @@
                 bgMusic.play().then(() => {
                     musicBtn.innerText = '🎵 Bật nhạc';
                     isPlaying = true;
-                }).catch(err => {});
+                }).catch(err => {
+                    console.log('Lỗi phát nhạc:', err);
+                });
             }
         }
         
+        // Bắt lỗi nạp ảnh tự động
         const testImg = new Image();
         testImg.src = currentPuzzleImg;
         testImg.onerror = () => {
@@ -336,6 +362,7 @@
             renderTiles();
         };
 
+        // 1. Tạo hiệu ứng sao lấp lánh
         const starContainer = document.getElementById('bg-stars');
         for(let i = 0; i < 40; i++) {
             let star = document.createElement('div');
@@ -347,6 +374,7 @@
             starContainer.appendChild(star);
         }
 
+        // 2. Tạo hiệu ứng sticker lơ lửng
         const stickersList = ['🌸', '🧸', '🎀', '💖', '✨', '☁️', '⭐'];
         const stickerContainer = document.getElementById('bg-stickers');
         for(let i = 0; i < 16; i++) {
@@ -360,6 +388,7 @@
             stickerContainer.appendChild(sticker);
         }
 
+        // 3. Logic trò chơi xếp hình 3x3 Dễ
         const boardSize = 3;
         let tiles = [0, 1, 2, 3, 4, 5, 6, 7, 8]; 
         const boardEl = document.getElementById('puzzle-board');
@@ -391,10 +420,12 @@
         function handleTileClick(index) {
             if (!gameStarted) return;
             
+            // Chọn mảnh đầu tiên
             if (selectedIndex === -1) {
                 selectedIndex = index;
                 renderTiles();
             } 
+            // Chọn mảnh thứ hai để hoán đổi
             else {
                 if (selectedIndex !== index) {
                     let temp = tiles[selectedIndex];
@@ -404,6 +435,7 @@
                 selectedIndex = -1;
                 renderTiles();
                 
+                // Kiểm tra hoàn tất
                 if (checkWin()) {
                     triggerWin();
                 }
@@ -416,11 +448,13 @@
             document.getElementById('win-message').style.opacity = '0';
             document.getElementById('shuffle-btn').innerText = 'Xáo trộn lại 🎲';
             
+            // Fisher-Yates Shuffle
             for (let i = tiles.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
             }
             
+            // Đảm bảo không bị trùng khớp sẵn ngay từ đầu
             if (checkWin()) {
                 [tiles[0], tiles[1]] = [tiles[1], tiles[0]];
             }
@@ -458,6 +492,7 @@
             modal.classList.remove('flex');
         }
 
+        // Tải trò chơi khi mở trang
         window.onload = () => {
             renderTiles();
         };
