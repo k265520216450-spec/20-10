@@ -244,10 +244,10 @@
             Nhấn vào bó hoa nhé! 🌸
         </h2>
         
-        <!-- Bó hoa Tulip lấy trực tiếp link raw GitHub + ảnh dự phòng -->
+        <!-- Bó hoa Tulip sử dụng bohoa.png -->
         <img id="tulip-bouquet" 
              src="https://raw.githubusercontent.com/k265520216450-spec/20-10/main/bohoa.png" 
-             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800';" 
+             onerror="this.onerror=null; this.src='bohoa.png';" 
              alt="Bó hoa tulip hồng" 
              class="bouquet-img"
              onclick="openLetter()">
@@ -275,8 +275,8 @@
     </div>
 
     <script>
-        // Mẫu ảnh cute cho bài xếp hình
-        const PUZZLE_IMAGE_URL = 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=300&h=300&auto=format&fit=crop'; 
+        // Đường dẫn ảnh dùng làm game xếp hình
+        const PUZZLE_IMAGE_URL = 'https://raw.githubusercontent.com/k265520216450-spec/20-10/main/anhxephinh.png'; 
         
         // 1. Tạo hiệu ứng sao lấp lánh
         const starContainer = document.getElementById('bg-stars');
@@ -285,133 +285,4 @@
             star.className = 'star';
             star.style.left = Math.random() * 100 + 'vw';
             star.style.top = Math.random() * 100 + 'vh';
-            star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
-            star.style.animationDelay = (Math.random() * 2) + 's';
-            starContainer.appendChild(star);
-        }
-
-        // 2. Tạo hiệu ứng sticker lơ lửng
-        const stickersList = ['🌸', '🧸', '🎀', '💖', '✨'];
-        const stickerContainer = document.getElementById('bg-stickers');
-        for(let i = 0; i < 16; i++) {
-            let sticker = document.createElement('div');
-            sticker.className = 'sticker';
-            sticker.innerText = stickersList[Math.floor(Math.random() * stickersList.length)];
-            sticker.style.left = Math.random() * 100 + 'vw';
-            sticker.style.animationDuration = (Math.random() * 8 + 10) + 's';
-            sticker.style.animationDelay = (Math.random() * -15) + 's';
-            sticker.style.transform = `scale(${Math.random() * 0.4 + 0.7})`;
-            stickerContainer.appendChild(sticker);
-        }
-
-        // 3. Logic trò chơi xếp hình 3x3 Dễ
-        const boardSize = 3;
-        let tiles = [0, 1, 2, 3, 4, 5, 6, 7, 8]; 
-        const boardEl = document.getElementById('puzzle-board');
-        let gameStarted = false;
-        let selectedIndex = -1;
-
-        function renderTiles() {
-            boardEl.innerHTML = '';
-            tiles.forEach((val, index) => {
-                const tile = document.createElement('div');
-                tile.className = 'tile';
-                if (index === selectedIndex) tile.classList.add('selected');
-                
-                const x = (index % boardSize) * 100;
-                const y = Math.floor(index / boardSize) * 100;
-                tile.style.left = x + 'px';
-                tile.style.top = y + 'px';
-
-                const bgX = (val % boardSize) * 100;
-                const bgY = Math.floor(val / boardSize) * 100;
-                tile.style.backgroundImage = `url('${PUZZLE_IMAGE_URL}')`;
-                tile.style.backgroundPosition = `-${bgX}px -${bgY}px`;
-
-                tile.onclick = () => handleTileClick(index);
-                boardEl.appendChild(tile);
-            });
-        }
-
-        function handleTileClick(index) {
-            if (!gameStarted) return;
-            
-            // Chọn mảnh đầu tiên
-            if (selectedIndex === -1) {
-                selectedIndex = index;
-                renderTiles();
-            } 
-            // Chọn mảnh thứ hai để hoán đổi
-            else {
-                if (selectedIndex !== index) {
-                    let temp = tiles[selectedIndex];
-                    tiles[selectedIndex] = tiles[index];
-                    tiles[index] = temp;
-                }
-                selectedIndex = -1;
-                renderTiles();
-                
-                // Kiểm tra hoàn tất
-                if (checkWin()) {
-                    triggerWin();
-                }
-            }
-        }
-
-        function shuffleGame() {
-            gameStarted = true;
-            selectedIndex = -1;
-            document.getElementById('win-message').style.opacity = '0';
-            document.getElementById('shuffle-btn').innerText = 'Xáo trộn lại 🎲';
-            
-            // Fisher-Yates Shuffle
-            for (let i = tiles.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
-            }
-            
-            // Đảm bảo không bị trùng khớp sẵn ngay từ đầu
-            if (checkWin()) {
-                [tiles[0], tiles[1]] = [tiles[1], tiles[0]];
-            }
-
-            renderTiles();
-        }
-
-        function checkWin() {
-            for (let i = 0; i < tiles.length; i++) {
-                if (tiles[i] !== i) return false;
-            }
-            return true;
-        }
-
-        function triggerWin() {
-            gameStarted = false;
-            document.getElementById('win-message').style.opacity = '1';
-            
-            setTimeout(() => {
-                document.getElementById('game-section').classList.add('hidden');
-                document.getElementById('bouquet-section').classList.remove('hidden');
-                document.getElementById('bouquet-section').classList.add('flex');
-            }, 1200);
-        }
-
-        function openLetter() {
-            const modal = document.getElementById('letter-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeLetter() {
-            const modal = document.getElementById('letter-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        // Tải trò chơi khi mở trang
-        window.onload = () => {
-            renderTiles();
-        };
-    </script>
-</body>
-</html>
+            star.style.animationDuration = (Math.random
